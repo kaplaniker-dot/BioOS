@@ -130,6 +130,17 @@
   .mockup-scroll::-webkit-scrollbar { display: none; }
   .mockup-scroll { -ms-overflow-style: none; scrollbar-width: none; }
 
+  /* ── CTA Button Glow ───────────────────────────── */
+  @keyframes ctaGlow {
+    0%, 100% { box-shadow: 0 4px 14px rgba(217,119,6,0.3), 0 0 0 0px rgba(217,119,6,0); }
+    50%       { box-shadow: 0 6px 28px rgba(217,119,6,0.5), 0 0 0 8px rgba(217,119,6,0.08); }
+  }
+  .btn-cta-xl {
+    font-size: 17px !important; padding: 18px 44px !important;
+    animation: ctaGlow 2.8s ease-in-out infinite;
+  }
+  .btn-cta-xl:hover { animation: none; }
+
   /* ── Responsive ─────────────────────────────────── */
   @media (max-width: 768px) {
 
@@ -787,12 +798,60 @@
 <!-- ═══════════════════════════════════════════════════
      9. SON CTA
 ═══════════════════════════════════════════════════ -->
-<section class="sec-cta" style="padding:120px 32px;text-align:center;border-top:1px solid #A5C8C5;">
-  <div style="max-width:640px;margin:0 auto;">
-    <div class="section-label" style="justify-content:center;margin-bottom:24px;">Başlamaya hazır mısın?</div>
-    <h2 style="font-family:'Cormorant Garamond',Georgia,serif;font-weight:400;font-size:clamp(36px,5vw,56px);letter-spacing:-1px;color:#0F172A;margin:0 0 20px;line-height:1.05;">Biyolojinin seni<br>sınırlamasına izin verme.</h2>
-    <p style="font-size:16px;color:#475569;margin:0 0 36px;line-height:1.7;">Ücretsiz başla, kredi kartı gerekmez.</p>
-    <a href="#" class="btn-primary" style="font-size:16px;padding:16px 36px;">Ücretsiz Hesap Oluştur</a>
+<section class="sec-cta" style="padding:120px 32px;text-align:center;background:linear-gradient(150deg,#CFFAFE 0%,#CCFBF1 45%,#D1FAE5 100%);position:relative;overflow:hidden;">
+
+  <!-- Arka plan dekoratif glow -->
+  <div style="position:absolute;inset:0;background:radial-gradient(ellipse 70% 60% at 50% 110%,rgba(2,132,199,0.1),transparent 65%);pointer-events:none;"></div>
+
+  <!-- Üst merkez accent çizgisi -->
+  <div style="position:absolute;top:0;left:50%;transform:translateX(-50%);width:100px;height:2px;background:linear-gradient(90deg,transparent,#0D9488,transparent);"></div>
+
+  <!-- Büyük dekoratif arka plan numarası -->
+  <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-family:'Cormorant Garamond',Georgia,serif;font-size:320px;font-weight:300;color:rgba(13,148,136,0.04);line-height:1;pointer-events:none;user-select:none;white-space:nowrap;">BioOS</div>
+
+  <div style="max-width:660px;margin:0 auto;position:relative;z-index:1;">
+
+    <div class="section-label" style="justify-content:center;margin-bottom:28px;">Başlamaya hazır mısın?</div>
+
+    <h2 style="font-family:'Cormorant Garamond',Georgia,serif;font-weight:400;font-size:clamp(38px,5vw,60px);letter-spacing:-1px;color:#0F172A;margin:0 0 24px;line-height:1.05;">Biyolojinin seni<br>sınırlamasına izin verme.</h2>
+
+    <!-- Sosyal kanıt -->
+    <div style="display:inline-flex;align-items:center;gap:14px;background:rgba(255,255,255,0.65);backdrop-filter:blur(8px);border:1px solid rgba(13,148,136,0.2);border-radius:100px;padding:10px 20px;margin-bottom:36px;">
+      <div style="display:flex;margin-right:4px;">
+        <img src="https://placehold.co/28x28/0D9488/white?text=A" style="width:28px;height:28px;border-radius:50%;border:2px solid white;margin-left:-6px;" alt="">
+        <img src="https://placehold.co/28x28/059669/white?text=M" style="width:28px;height:28px;border-radius:50%;border:2px solid white;margin-left:-6px;" alt="">
+        <img src="https://placehold.co/28x28/0284C7/white?text=S" style="width:28px;height:28px;border-radius:50%;border:2px solid white;margin-left:-6px;" alt="">
+        <img src="https://placehold.co/28x28/D97706/white?text=E" style="width:28px;height:28px;border-radius:50%;border:2px solid white;margin-left:-6px;" alt="">
+      </div>
+      <div style="width:1px;height:20px;background:rgba(13,148,136,0.25);"></div>
+      <span style="font-size:13px;font-weight:500;color:#0F172A;">2.400+ kullanıcı aktif</span>
+      <div style="display:flex;gap:2px;">
+        <span style="color:#D97706;font-size:13px;">★★★★★</span>
+      </div>
+    </div>
+
+    <div>
+      <a href="#" class="btn-primary btn-cta-xl">Ücretsiz Hesap Oluştur</a>
+    </div>
+
+    <!-- Trust badge'leri -->
+    <div style="display:flex;align-items:center;justify-content:center;gap:28px;margin-top:28px;flex-wrap:wrap;">
+      <div style="display:flex;align-items:center;gap:6px;">
+        <span style="color:#059669;font-size:14px;">✓</span>
+        <span style="font-size:13px;font-weight:500;color:#475569;">Kredi kartı gerekmez</span>
+      </div>
+      <div style="width:4px;height:4px;border-radius:50%;background:#A5C8C5;"></div>
+      <div style="display:flex;align-items:center;gap:6px;">
+        <span style="color:#059669;font-size:14px;">✓</span>
+        <span style="font-size:13px;font-weight:500;color:#475569;">14 gün ücretsiz</span>
+      </div>
+      <div style="width:4px;height:4px;border-radius:50%;background:#A5C8C5;"></div>
+      <div style="display:flex;align-items:center;gap:6px;">
+        <span style="color:#059669;font-size:14px;">✓</span>
+        <span style="font-size:13px;font-weight:500;color:#475569;">İstediğin zaman iptal</span>
+      </div>
+    </div>
+
   </div>
 </section>
 
