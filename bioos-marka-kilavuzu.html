@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BioOS — Marka Kılavuzu</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --canvas:    #FAFAF7;
+    --surface:   #F2EFE9;
+    --surface-2: #E8E3DB;
+    --carbon:    #141414;
+    --graphite:  #2C2C2C;
+    --stone:     #6B6560;
+    --mid:       #B0A9A2;
+    --border:    #D8D2CA;
+    --orange:    #E05C25;
+    --orange-lt: #F5DDD3;
+    --orange-dk: #A83C12;
+    --green:     #2DAA7A;
+    --green-lt:  #D2F0E6;
+    --green-dk:  #1A6E4F;
+    --teal:      #1A8A82;
+    --teal-lt:   #D0EDEB;
+    --cream:     #F5F0E6;
+    --serif: 'Cormorant Garamond', Georgia, serif;
+    --sans:  'DM Sans', system-ui, sans-serif;
+    --mono:  'DM Mono', monospace;
+  }
+
+  html { font-family: var(--sans); background: var(--canvas); color: var(--carbon); }
+  body { max-width: 900px; margin: 0 auto; padding: 60px 40px 120px; }
+
+  /* KAPAK */
+  .cover {
+    display: flex; justify-content: space-between; align-items: flex-end;
+    border-bottom: 1px solid var(--border); padding-bottom: 48px; margin-bottom: 72px;
+  }
+  .cover-left h1 {
+    font-family: var(--serif); font-weight: 300; font-size: 52px;
+    line-height: 1.05; letter-spacing: -1px; color: var(--carbon);
+  }
+  .cover-left h1 em { font-style: italic; color: var(--orange); }
+  .cover-left p {
+    font-size: 13px; letter-spacing: 3px; text-transform: uppercase;
+    color: var(--stone); margin-top: 12px; font-weight: 500;
+  }
+  .logo-mark { display: flex; flex-direction: column; align-items: flex-end; gap: 6px; }
+
+  /* BÖLÜM */
+  .section { margin-bottom: 72px; }
+  .section-label {
+    display: flex; align-items: center; gap: 12px;
+    font-size: 10px; letter-spacing: 3px; text-transform: uppercase;
+    color: var(--stone); font-weight: 500; margin-bottom: 32px;
+  }
+  .section-label::before {
+    content: ''; display: block; width: 24px; height: 1px; background: var(--orange);
+  }
+  .section-title {
+    font-family: var(--serif); font-weight: 300; font-size: 36px;
+    letter-spacing: -0.5px; color: var(--carbon); margin-bottom: 32px; line-height: 1.1;
+  }
+
+  /* LOGO */
+  .logo-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .logo-box {
+    border-radius: 12px; padding: 40px 32px; display: flex; flex-direction: column;
+    align-items: center; justify-content: center; gap: 8px; min-height: 160px;
+  }
+  .logo-box-label {
+    font-size: 10px; letter-spacing: 2px; text-transform: uppercase;
+    font-weight: 500; margin-top: 20px;
+  }
+  .lb-light  { background: var(--canvas); border: 1px solid var(--border); }
+  .lb-warm   { background: var(--cream);  border: 1px solid var(--border); }
+  .lb-dark   { background: var(--carbon); }
+  .lb-accent { background: var(--orange); }
+
+  /* PALET */
+  .palette-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+  .swatch-wrap { display: flex; flex-direction: column; gap: 10px; }
+  .swatch { height: 88px; border-radius: 10px; }
+  .swatch-row { display: flex; gap: 4px; height: 32px; }
+  .swatch-row div { flex: 1; border-radius: 6px; }
+  .swatch-name { font-size: 12px; font-weight: 500; color: var(--carbon); letter-spacing: 0.3px; }
+  .swatch-hex  { font-family: var(--mono); font-size: 11px; color: var(--stone); margin-top: 2px; }
+  .swatch-role { font-size: 10px; color: var(--mid); letter-spacing: 0.5px; text-transform: uppercase; margin-top: 1px; }
+
+  /* TİPOGRAFİ */
+  .type-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; }
+  .type-card { background: var(--surface); border-radius: 12px; padding: 32px; }
+  .type-role { font-size: 11px; color: var(--stone); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 4px; }
+  .type-name { font-size: 13px; font-weight: 600; color: var(--carbon); letter-spacing: 0.5px; }
+  .type-alpha {
+    font-size: 11px; color: var(--stone); line-height: 1.8; letter-spacing: 0.5px; margin-top: 12px;
+    border-top: 1px solid var(--border); padding-top: 12px;
+  }
+  .type-scale { margin-top: 32px; }
+  .scale-row {
+    display: flex; align-items: baseline; gap: 16px;
+    border-bottom: 1px solid var(--border); padding: 12px 0;
+  }
+  .scale-label {
+    font-family: var(--mono); font-size: 10px; color: var(--mid);
+    width: 60px; flex-shrink: 0; letter-spacing: 1px;
+  }
+
+  /* İKONOGRAFİ */
+  .icon-box {
+    width: 48px; height: 48px; border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .ib-outline { border: 1.5px solid var(--carbon); background: transparent; }
+  .ib-fill    { background: var(--carbon); }
+  .ib-accent  { background: var(--orange-lt); border: 1.5px solid var(--orange); }
+  .ib-green   { background: var(--green-lt);  border: 1.5px solid var(--green); }
+  .ib-teal    { background: var(--teal-lt);   border: 1.5px solid var(--teal); }
+
+  /* BUTONLAR */
+  .btn {
+    font-family: var(--sans); font-size: 13px; font-weight: 500;
+    padding: 12px 28px; border-radius: 100px; cursor: pointer;
+    letter-spacing: 0.3px; display: inline-flex; align-items: center; gap: 8px;
+    border: none;
+  }
+  .btn-primary { background: var(--carbon);  color: var(--canvas); }
+  .btn-orange  { background: var(--orange);  color: #fff; }
+  .btn-outline { background: transparent; border: 1.5px solid var(--carbon); color: var(--carbon); }
+  .btn-ghost   { background: var(--surface-2); color: var(--carbon); }
+  .btn-bio     { background: var(--green);   color: #fff; }
+  .btn-sm      { font-size: 11px; padding: 8px 20px; letter-spacing: 0.5px; }
+  .btn-showcase { display: flex; gap: 16px; flex-wrap: wrap; align-items: center; margin-top: 8px; }
+  .btn-group   { display: flex; flex-direction: column; align-items: center; }
+  .btn-label   { font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--stone); margin-top: 6px; text-align: center; }
+
+  /* TAGler */
+  .tags { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 12px; }
+  .tag { font-size: 11px; font-weight: 500; padding: 5px 14px; border-radius: 100px; letter-spacing: 0.3px; }
+  .tag-orange { background: var(--orange-lt); color: var(--orange-dk); }
+  .tag-green  { background: var(--green-lt);  color: var(--green-dk); }
+  .tag-teal   { background: var(--teal-lt);   color: var(--teal); }
+  .tag-stone  { background: var(--surface-2); color: var(--stone); }
+
+  /* KOMPONENTler */
+  .comp-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+  .comp-card { background: var(--surface); border-radius: 16px; padding: 24px; }
+  .comp-title { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--stone); margin-bottom: 16px; }
+  .metric-card { background: var(--canvas); border-radius: 12px; padding: 20px; border: 1px solid var(--border); }
+  .metric-label { font-size: 11px; color: var(--stone); font-weight: 400; letter-spacing: 0.5px; }
+  .metric-value { font-family: var(--serif); font-size: 40px; font-weight: 300; color: var(--carbon); line-height: 1.1; }
+  .metric-value span { font-size: 16px; color: var(--stone); }
+  .metric-delta { font-size: 11px; color: var(--green-dk); font-weight: 500; margin-top: 4px; }
+  .progress-wrap { margin-top: 12px; }
+  .progress-head { display: flex; justify-content: space-between; margin-bottom: 6px; }
+  .progress-name { font-size: 12px; color: var(--graphite); }
+  .progress-val  { font-size: 12px; color: var(--stone); font-family: var(--mono); }
+  .progress-track { height: 4px; background: var(--surface-2); border-radius: 2px; }
+  .progress-fill  { height: 4px; border-radius: 2px; }
+
+  /* SES & TON */
+  .voice-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .voice-card { border-radius: 12px; padding: 24px; border: 1px solid var(--border); background: var(--canvas); }
+  .voice-word { font-family: var(--serif); font-size: 22px; font-weight: 300; color: var(--carbon); margin-bottom: 6px; }
+  .voice-desc { font-size: 12px; color: var(--stone); line-height: 1.6; }
+  .voice-not  { font-size: 11px; color: var(--mid); margin-top: 8px; }
+  .voice-not strong { color: var(--stone); font-weight: 500; }
+
+  /* KURALLAR */
+  .rule-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .rule-card { border-radius: 12px; padding: 24px; border: 1px solid; }
+  .rule-do   { border-color: var(--green);  background: var(--green-lt); }
+  .rule-dont { border-color: var(--orange); background: var(--orange-lt); }
+  .rule-head { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; font-weight: 600; margin-bottom: 12px; }
+  .rule-do   .rule-head { color: var(--green-dk); }
+  .rule-dont .rule-head { color: var(--orange-dk); }
+  .rule-list { list-style: none; }
+  .rule-list li { font-size: 12px; line-height: 1.7; padding-left: 16px; position: relative; color: var(--graphite); }
+  .rule-list li::before { content: ''; position: absolute; left: 0; top: 8px; width: 5px; height: 5px; border-radius: 50%; }
+  .rule-do   .rule-list li::before { background: var(--green-dk); }
+  .rule-dont .rule-list li::before { background: var(--orange-dk); }
+
+  /* FOOTER */
+  .footer {
+    margin-top: 80px; padding-top: 32px; border-top: 1px solid var(--border);
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .footer-meta { font-size: 11px; color: var(--mid); text-align: right; line-height: 1.8; }
+
+  hr { border: none; border-top: 1px solid var(--border); margin: 72px 0; }
+
+  /* YAZDIRMA */
+  @media print {
+    body { padding: 40px; }
+    hr { margin: 40px 0; }
+    .section { page-break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+
+<!-- KAPAK -->
+<div class="cover">
+  <div class="cover-left">
+    <h1>Marka<br><em>Kılavuzu</em></h1>
+    <p>Sürüm 1.0 · 2026</p>
+  </div>
+  <div class="logo-mark">
+    <div style="font-family:'Cormorant Garamond',serif; font-weight:300; font-size:52px; letter-spacing:-1px; line-height:1; color:#141414;">
+      Bio<span style="color:#E05C25;">OS</span>
+    </div>
+    <div style="font-family:'DM Mono',monospace; font-size:9px; letter-spacing:4px; color:#E05C25; font-weight:500;">
+      BİYOLOJİK İŞLETİM SİSTEMİ
+    </div>
+    <div style="font-size:10px; letter-spacing:2px; text-transform:uppercase; color:#6B6560; font-weight:400; margin-top:4px;">
+      Biyolojini Tasarla
+    </div>
+  </div>
+</div>
+
+<!-- 01 KİMLİK -->
+<div class="section">
+  <div class="section-label">01 — Kimlik</div>
+  <div class="section-title">BioOS Logosu</div>
+
+  <div class="logo-grid">
+    <div class="logo-box lb-light">
+      <div>
+        <div style="font-family:'Cormorant Garamond',serif; font-weight:300; font-size:34px; color:#141414; text-align:center;">
+          Bio<span style="color:#E05C25;">OS</span>
+        </div>
+        <div style="font-family:'DM Mono',monospace; font-size:8px; letter-spacing:3px; color:#6B6560; text-align:center; margin-top:4px;">
+          BİYOLOJİK İŞLETİM SİSTEMİ
+        </div>
+      </div>
+      <div class="logo-box-label" style="color:#B0A9A2;">Açık Zemin</div>
+    </div>
+
+    <div class="logo-box lb-warm">
+      <div>
+        <div style="font-family:'Cormorant Garamond',serif; font-weight:300; font-size:34px; color:#141414; text-align:center;">
+          Bio<span style="color:#E05C25;">OS</span>
+        </div>
+        <div style="font-family:'DM Mono',monospace; font-size:8px; letter-spacing:3px; color:#6B6560; text-align:center; margin-top:4px;">
+          BİYOLOJİK İŞLETİM SİSTEMİ
+        </div>
+      </div>
+      <div class="logo-box-label" style="color:#B0A9A2;">Krem Zemin</div>
+    </div>
+
+    <div class="logo-box lb-dark">
+      <div>
+        <div style="font-family:'Cormorant Garamond',serif; font-weight:300; font-size:34px; color:#FAFAF7; text-align:center;">
+          Bio<span style="color:#E05C25;">OS</span>
+        </div>
+        <div style="font-family:'DM Mono',monospace; font-size:8px; letter-spacing:3px; color:#E05C25; text-align:center; margin-top:4px;">
+          BİYOLOJİK İŞLETİM SİSTEMİ
+        </div>
+      </div>
+      <div class="logo-box-label" style="color:#555;">Koyu Zemin</div>
+    </div>
+
+    <div class="logo-box lb-accent">
+      <div>
+        <div style="font-family:'Cormorant Garamond',serif; font-weight:300; font-size:34px; color:#fff; text-align:center;">
+          Bio<span style="color:rgba(255,255,255,0.6);">OS</span>
+        </div>
+        <div style="font-family:'DM Mono',monospace; font-size:8px; letter-spacing:3px; color:rgba(255,255,255,0.7); text-align:center; margin-top:4px;">
+          BİYOLOJİK İŞLETİM SİSTEMİ
+        </div>
+      </div>
+      <div class="logo-box-label" style="color:rgba(255,255,255,0.5);">Vurgu Rengi Zemin</div>
+    </div>
+  </div>
+
+  <div style="margin-top:24px; padding:20px 24px; background:var(--surface); border-radius:10px; display:flex; gap:24px;">
+    <div style="flex:1;">
+      <div style="font-size:10px; letter-spacing:2px; text-transform:uppercase; color:var(--stone); margin-bottom:6px;">Koruma Alanı</div>
+      <div style="font-size:12px; color:var(--graphite); line-height:1.7;">
+        Logo etrafında minimum koruma alanı, <span style="font-family:'DM Mono',monospace; font-size:11px; color:var(--orange);">OS</span> harflerinin yüksekliği kadar olmalıdır. Bu alana hiçbir öğe yerleştirilmemelidir.
+      </div>
+    </div>
+    <div style="flex:1;">
+      <div style="font-size:10px; letter-spacing:2px; text-transform:uppercase; color:var(--stone); margin-bottom:6px;">Minimum Boyut</div>
+      <div style="font-size:12px; color:var(--graphite); line-height:1.7;">
+        Dijital: minimum 80px genişlik.<br>Baskı: minimum 18mm genişlik.<br>Bu ölçeklerin altına inilmemelidir.
+      </div>
+    </div>
+  </div>
+</div>
+
+<hr>
+
+<!-- 02 RENK -->
+<div class="section">
+  <div class="section-label">02 — Renk</div>
+  <div class="section-title">Marka Renk Paleti</div>
+
+  <div class="palette-grid">
+    <div class="swatch-wrap">
+      <div class="swatch" style="background:#141414;"></div>
+      <div class="swatch-name">Karbon</div>
+      <div class="swatch-hex">#141414</div>
+      <div class="swatch-role">Ana Renk / Metin</div>
+    </div>
+
+    <div class="swatch-wrap">
+      <div class="swatch" style="background:#FAFAF7; border:1px solid #D8D2CA;"></div>
+      <div class="swatch-name">Tuval</div>
+      <div class="swatch-hex">#FAFAF7</div>
+      <div class="swatch-role">Arka Plan</div>
+    </div>
+
+    <div class="swatch-wrap">
+      <div class="swatch" style="background:#E05C25;"></div>
+      <div class="swatch-row">
+        <div style="background:#F5DDD3;"></div>
+        <div style="background:#E05C25;"></div>
+        <div style="background:#A83C12;"></div>
+      </div>
+      <div class="swatch-name">Canlı Turuncu</div>
+      <div class="swatch-hex">#E05C25</div>
+      <div class="swatch-role">Birincil Vurgu</div>
+    </div>
+
+    <div class="swatch-wrap">
+      <div class="swatch" style="background:#2DAA7A;"></div>
+      <div class="swatch-row">
+        <div style="background:#D2F0E6;"></div>
+        <div style="background:#2DAA7A;"></div>
+        <div style="background:#1A6E4F;"></div>
+      </div>
+      <div class="swatch-name">Bio Yeşili</div>
+      <div class="swatch-hex">#2DAA7A</div>
+      <div class="swatch-role">İkincil Vurgu</div>
+    </div>
+
+    <div class="swatch-wrap">
+      <div class="swatch" style="background:#1A8A82;"></div>
+      <div class="swatch-row">
+        <div style="background:#D0EDEB;"></div>
+        <div style="background:#1A8A82;"></div>
+        <div style="background:#0F5A54;"></div>
+      </div>
+      <div class="swatch-name">Uzun Ömür Teal</div>
+      <div class="swatch-hex">#1A8A82</div>
+      <div class="swatch-role">Üçüncül Vurgu</div>
+    </div>
+
+    <div class="swatch-wrap">
+      <div class="swatch" style="background:#F5F0E6; border:1px solid #D8D2CA;"></div>
+      <div class="swatch-name">Sıcak Krem</div>
+      <div class="swatch-hex">#F5F0E6</div>
+      <div class="swatch-role">Yüzey / Kartlar</div>
+    </div>
+
+    <div class="swatch-wrap">
+      <div class="swatch" style="background:#6B6560;"></div>
+      <div class="swatch-name">Taş Gri</div>
+      <div class="swatch-hex">#6B6560</div>
+      <div class="swatch-role">İkincil Metin</div>
+    </div>
+
+    <div class="swatch-wrap">
+      <div class="swatch" style="background:#D8D2CA; border:1px solid #C4BDB5;"></div>
+      <div class="swatch-name">Çizgi</div>
+      <div class="swatch-hex">#D8D2CA</div>
+      <div class="swatch-role">Kenarlık / Ayraç</div>
+    </div>
+  </div>
+</div>
+
+<hr>
+
+<!-- 03 TİPOGRAFİ -->
+<div class="section">
+  <div class="section-label">03 — Tipografi</div>
+  <div class="section-title">Yazı Tipi Sistemi</div>
+
+  <div class="type-grid">
+    <div class="type-card">
+      <div class="type-role">Başlık / Vitrin</div>
+      <div class="type-name">Cormorant Garamond</div>
+      <div style="font-family:'Cormorant Garamond',serif; font-weight:300; font-size:56px; line-height:1; color:var(--carbon); margin:16px 0;">
+        Aa <em style="color:var(--orange);">Aa</em>
+      </div>
+      <div class="type-alpha" style="font-family:'Cormorant Garamond',serif; font-weight:300; font-size:13px;">
+        ABCDEFGHIJKLMNOPQRSTUVWXYZ<br>
+        abcdefghijklmnopqrstuvwxyz<br>
+        0123456789 &amp; @ # % + —
+      </div>
+      <div style="margin-top:14px; font-size:11px; color:var(--stone); line-height:1.7;">
+        Kullanım: H1 başlıklar, vitrin metinleri, bölüm başlıkları, alıntılar. Ağırlık: 300 (İnce) ve 300 İtalik.
+      </div>
+    </div>
+
+    <div class="type-card">
+      <div class="type-role">Gövde Metin / Arayüz</div>
+      <div class="type-name">DM Sans</div>
+      <div style="font-family:'DM Sans',sans-serif; font-weight:400; font-size:32px; line-height:1; color:var(--carbon); margin:16px 0;">
+        Aa
+      </div>
+      <div class="type-alpha" style="font-family:'DM Sans',sans-serif; font-size:13px;">
+        ABCDEFGHIJKLMNOPQRSTUVWXYZ<br>
+        abcdefghijklmnopqrstuvwxyz<br>
+        0123456789 &amp; @ # % + —
+      </div>
+      <div style="margin-top:14px; font-size:11px; color:var(--stone); line-height:1.7;">
+        Kullanım: Gövde metni, arayüz etiketleri, navigasyon, butonlar, açıklamalar. Ağırlıklar: 300, 400, 500.
+      </div>
+    </div>
+  </div>
+
+  <div class="type-scale">
+    <div style="font-size:10px; letter-spacing:2px; text-transform:uppercase; color:var(--stone); margin-bottom:16px;">Yazı Boyut Skalası</div>
+
+    <div class="scale-row">
+      <div class="scale-label">D1 / 52px</div>
+      <div style="font-family:'Cormorant Garamond',serif; font-weight:300; font-size:52px; line-height:1; letter-spacing:-1px; color:var(--carbon);">Biyolojini Tasarla</div>
+    </div>
+    <div class="scale-row">
+      <div class="scale-label">H1 / 36px</div>
+      <div style="font-family:'Cormorant Garamond',serif; font-weight:300; font-size:36px; line-height:1.1; letter-spacing:-0.5px; color:var(--carbon);">Biyobelirteç Zekası</div>
+    </div>
+    <div class="scale-row">
+      <div class="scale-label">H2 / 24px</div>
+      <div style="font-family:'DM Sans',sans-serif; font-weight:500; font-size:24px; color:var(--carbon);">Uzun Ömür Protokolleri</div>
+    </div>
+    <div class="scale-row">
+      <div class="scale-label">Gövde / 15px</div>
+      <div style="font-family:'DM Sans',sans-serif; font-weight:400; font-size:15px; line-height:1.7; color:var(--graphite); max-width:480px;">
+        BioOS, veri odaklı protokoller ve kişiselleştirilmiş sağlık içgörüleri aracılığıyla sana özel biyolojik planını anlaman ve optimize etmen için tasarlandı.
+      </div>
+    </div>
+    <div class="scale-row">
+      <div class="scale-label">Etiket / 10px</div>
+      <div style="font-family:'DM Sans',sans-serif; font-weight:500; font-size:10px; letter-spacing:3px; text-transform:uppercase; color:var(--stone);">
+        Biyolojik İşletim Sistemi · Sürüm 1.0
+      </div>
+    </div>
+    <div class="scale-row">
+      <div class="scale-label">Mono / 11px</div>
+      <div style="font-family:'DM Mono',monospace; font-size:11px; color:var(--orange); letter-spacing:1px;">
+        VO2_MAX: 58.4 · KALBİ_DEĞİŞKENLİĞİ: 72ms · UYKU_PUANI: 91
+      </div>
+    </div>
+  </div>
+</div>
+
+<hr>
+
+<!-- 04 İKONOGRAFİ -->
+<div class="section">
+  <div class="section-label">04 — İkonografi</div>
+  <div class="section-title">İkon Stili</div>
+
+  <div style="display:flex; gap:40px; flex-wrap:wrap; margin-bottom:24px;">
+
+    <div style="display:flex; flex-direction:column; gap:12px;">
+      <div style="font-size:10px; letter-spacing:2px; text-transform:uppercase; color:var(--stone);">Kontur — Varsayılan</div>
+      <div style="display:flex; gap:12px;">
+        <div class="icon-box ib-outline">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#141414" stroke-width="1.5" stroke-linecap="round">
+            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+          </svg>
+        </div>
+        <div class="icon-box ib-outline">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#141414" stroke-width="1.5" stroke-linecap="round">
+            <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+          </svg>
+        </div>
+        <div class="icon-box ib-outline">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#141414" stroke-width="1.5" stroke-linecap="round">
+            <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
+          </svg>
+        </div>
+        <div class="icon-box ib-outline">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#141414" stroke-width="1.5" stroke-linecap="round">
+            <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
+          </svg>
+        </div>
+      </div>
+    </div>
+
+    <div style="display:flex; flex-direction:column; gap:12px;">
+      <div style="font-size:10px; letter-spacing:2px; text-transform:uppercase; color:var(--stone);">Vurgu Dolgu</div>
+      <div style="display:flex; gap:12px;">
+        <div class="icon-box ib-accent">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#E05C25" stroke-width="1.5" stroke-linecap="round">
+            <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
+          </svg>
+        </div>
+        <div class="icon-box ib-green">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2DAA7A" stroke-width="1.5" stroke-linecap="round">
+            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/>
+          </svg>
+        </div>
+        <div class="icon-box ib-teal">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1A8A82" stroke-width="1.5" stroke-linecap="round">
+            <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
+          </svg>
+        </div>
+      </div>
+    </div>
+
+    <div style="display:flex; flex-direction:column; gap:12px;">
+      <div style="font-size:10px; letter-spacing:2px; text-transform:uppercase; color:var(--stone);">Dolu — Koyu</div>
+      <div style="display:flex; gap:12px;">
+        <div class="icon-box ib-fill">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FAFAF7" stroke-width="1.5" stroke-linecap="round">
+            <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
+          </svg>
+        </div>
+        <div class="icon-box ib-fill">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FAFAF7" stroke-width="1.5" stroke-linecap="round">
+            <circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/>
+          </svg>
+        </div>
+        <div class="icon-box ib-fill">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#E05C25" stroke-width="1.5" stroke-linecap="round">
+            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div style="padding:16px 20px; background:var(--surface); border-radius:10px; font-size:12px; color:var(--stone); line-height:1.8;">
+    İkonlar <strong style="color:var(--graphite);">1.5px kontur kalınlığı</strong> ile yuvarlak uç ve köşe kullanır. Izgara: 24×24px, 2px iç dolgu. İkon ailesi: Feather / Lucide. Dolu ve konturlu ikonlar aynı bağlamda birlikte kullanılmamalıdır.
+  </div>
+</div>
+
+<hr>
+
+<!-- 05 KOMPONENTler -->
+<div class="section">
+  <div class="section-label">05 — Arayüz Bileşenleri</div>
+  <div class="section-title">UI Sistem</div>
+
+  <!-- Butonlar -->
+  <div style="margin-bottom:40px;">
+    <div style="font-size:10px; letter-spacing:2px; text-transform:uppercase; color:var(--stone); margin-bottom:20px;">Buton Stilleri</div>
+    <div class="btn-showcase">
+      <div class="btn-group">
+        <button class="btn btn-primary">Protokolü Başlat</button>
+        <div class="btn-label">Birincil</div>
+      </div>
+      <div class="btn-group">
+        <button class="btn btn-orange">Şimdi Analiz Et</button>
+        <div class="btn-label">Canlı Turuncu</div>
+      </div>
+      <div class="btn-group">
+        <button class="btn btn-bio">Bio Raporu</button>
+        <div class="btn-label">Bio Yeşili</div>
+      </div>
+      <div class="btn-group">
+        <button class="btn btn-outline">Daha Fazla</button>
+        <div class="btn-label">Kontur</div>
+      </div>
+      <div class="btn-group">
+        <button class="btn btn-ghost">Ayarlar</button>
+        <div class="btn-label">Hayalet</div>
+      </div>
+    </div>
+    <div class="btn-showcase" style="margin-top:16px;">
+      <button class="btn btn-primary btn-sm">Protokolü Başlat</button>
+      <button class="btn btn-orange btn-sm">Şimdi Analiz Et</button>
+      <button class="btn btn-outline btn-sm">Daha Fazla</button>
+      <button class="btn btn-ghost btn-sm">Ayarlar</button>
+    </div>
+  </div>
+
+  <!-- Etiketler -->
+  <div style="margin-bottom:40px;">
+    <div style="font-size:10px; letter-spacing:2px; text-transform:uppercase; color:var(--stone); margin-bottom:14px;">Etiket & Rozet</div>
+    <div class="tags">
+      <span class="tag tag-orange">Uzun Ömür</span>
+      <span class="tag tag-green">Toparlanma</span>
+      <span class="tag tag-teal">Uyku</span>
+      <span class="tag tag-stone">Beslenme</span>
+      <span class="tag tag-orange">Performans</span>
+      <span class="tag tag-green">KAD Optimal</span>
+      <span class="tag tag-teal">Biyohacking</span>
+      <span class="tag tag-stone">Protokol Aktif</span>
+    </div>
+  </div>
+
+  <!-- Kart Örnekleri -->
+  <div class="comp-grid">
+    <div class="comp-card">
+      <div class="comp-title">Biyobelirteç Metrik Kartı</div>
+      <div class="metric-card">
+        <div class="metric-label">Kalp Atış Değişkenliği</div>
+        <div class="metric-value">72 <span>ms</span></div>
+        <div class="metric-delta">↑ Geçen haftadan 8ms artış · Optimal</div>
+        <div class="progress-wrap" style="margin-top:14px;">
+          <div class="progress-head">
+            <span class="progress-name">Yaş Karşılaştırması</span>
+            <span class="progress-val">84%</span>
+          </div>
+          <div class="progress-track">
+            <div class="progress-fill" style="width:84%; background:var(--green);"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="comp-card">
+      <div class="comp-title">Aktif Protokol Kartı</div>
+      <div style="background:var(--canvas); border-radius:12px; border:1px solid var(--border); padding:20px;">
+        <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:14px;">
+          <div>
+            <div style="font-family:'Cormorant Garamond',serif; font-weight:300; font-size:20px; color:var(--carbon);">Sabah Yığını</div>
+            <div style="font-size:11px; color:var(--stone); margin-top:2px; letter-spacing:0.5px;">Toparlanma · Uyku Optimizasyonu</div>
+          </div>
+          <span class="tag tag-green" style="font-size:10px; padding:4px 10px;">Aktif</span>
+        </div>
+        <div class="progress-wrap">
+          <div class="progress-head">
+            <span class="progress-name">8 Haftanın 3. Haftası</span>
+            <span class="progress-val">38%</span>
+          </div>
+          <div class="progress-track">
+            <div class="progress-fill" style="width:38%; background:var(--orange);"></div>
+          </div>
+        </div>
+        <div style="margin-top:12px; font-size:11px; color:var(--stone);">Sıradaki: Magnezyum Glikonat · Bu Gece 21:00</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<hr>
+
+<!-- 06 SES & TON -->
+<div class="section">
+  <div class="section-label">06 — Ses & Ton</div>
+  <div class="section-title">BioOS Nasıl Konuşur</div>
+
+  <div class="voice-grid">
+    <div class="voice-card">
+      <div style="width:36px; height:36px; background:var(--orange-lt); border-radius:10px; display:flex; align-items:center; justify-content:center; margin-bottom:16px;">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#E05C25" stroke-width="1.5" stroke-linecap="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+      </div>
+      <div class="voice-word">Kesin</div>
+      <div class="voice-desc">Veri odaklı, spesifik, kanıta dayalı. Gerçek sayılar ve gerçek bilim kullanırız.</div>
+      <div class="voice-not"><strong>Değil:</strong> belirsiz sağlık iddiaları veya genel motivasyon.</div>
+    </div>
+    <div class="voice-card">
+      <div style="width:36px; height:36px; background:var(--green-lt); border-radius:10px; display:flex; align-items:center; justify-content:center; margin-bottom:16px;">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2DAA7A" stroke-width="1.5" stroke-linecap="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+      </div>
+      <div class="voice-word">İnsani</div>
+      <div class="voice-desc">Sıcak, meraklı, iyimser. Verinin arkasındaki insanı önemseriz.</div>
+      <div class="voice-not"><strong>Değil:</strong> soğuk klinik dil veya robotik yanıtlar.</div>
+    </div>
+    <div class="voice-card">
+      <div style="width:36px; height:36px; background:var(--teal-lt); border-radius:10px; display:flex; align-items:center; justify-content:center; margin-bottom:16px;">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1A8A82" stroke-width="1.5" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+      </div>
+      <div class="voice-word">Genişletici</div>
+      <div class="voice-desc">Kişinin tam potansiyeline konuşuruz, yalnızca belirtilerine değil.</div>
+      <div class="voice-not"><strong>Değil:</strong> kısıtlayıcı veya korku temelli sağlık dili.</div>
+    </div>
+  </div>
+</div>
+
+<hr>
+
+<!-- 07 KURALLAR -->
+<div class="section">
+  <div class="section-label">07 — Kullanım Kuralları</div>
+  <div class="section-title">Yapılabilecekler & Yapılmaması Gerekenler</div>
+
+  <div class="rule-grid">
+    <div class="rule-card rule-do">
+      <div class="rule-head">Yapılabilir ✓</div>
+      <ul class="rule-list">
+        <li>Tüm birincil başlıklarda Cormorant Garamond Light kullan</li>
+        <li>Sıcak krem zemin ile karbon metni birleştir</li>
+        <li>Canlı Turuncu'yu birincil eylem çağrısı rengi olarak kullan</li>
+        <li>Bio Yeşili, olumlu metrikler ve ilerleme göstergelerinde kullan</li>
+        <li>Tüm veri çıktıları ve biyobelirteç değerleri için DM Mono kullan</li>
+        <li>Bol beyaz alan bırak — nefes tasarımın parçasıdır</li>
+        <li>Bölüm etiketlerinde büyük harf + 3px harf aralığı kullan</li>
+      </ul>
+    </div>
+    <div class="rule-card rule-dont">
+      <div class="rule-head">Yapılmamalı ✗</div>
+      <ul class="rule-list">
+        <li>Logo asla yoğun fotoğraf zeminlere yerleştirilmemelidir</li>
+        <li>Canlı Turuncu ve Bio Yeşili aynı buton sırasında karıştırılmamalıdır</li>
+        <li>Kalın (700) ağırlık kullanılmamalıdır — maksimum ağırlık 600'dür</li>
+        <li>Logo asla uzatılmamalı, döndürülmemeli veya efekt eklenmemelidir</li>
+        <li>Saf siyah (#000000) kullanılmamalıdır — her zaman Karbon (#141414)</li>
+        <li>Tek ekranda 3'ten fazla vurgu rengi kullanılmamalıdır</li>
+        <li>Hiçbir üründe sistem fontları (Arial, Helvetica) kullanılmamalıdır</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+  <div>
+    <div style="font-family:'Cormorant Garamond',serif; font-weight:300; font-size:22px; color:var(--carbon);">
+      Bio<span style="color:#E05C25;">OS</span>
+    </div>
+    <div style="font-family:'DM Mono',monospace; font-size:7px; letter-spacing:3px; color:var(--stone); margin-top:2px;">
+      BİYOLOJİK İŞLETİM SİSTEMİ
+    </div>
+  </div>
+  <div class="footer-meta">
+    Marka Kılavuzu v1.0<br>
+    İlker · Yüksek Performans Mimarı<br>
+    Melbourne · 2026
+  </div>
+</div>
+
+</body>
+</html>
