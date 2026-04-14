@@ -186,6 +186,48 @@
     .footer-links { flex-wrap: wrap !important; gap: 16px !important; }
   }
 
+  /* ── Scroll Animations ──────────────────────────── */
+  .anim {
+    opacity: 0;
+    transform: translateY(24px);
+    transition:
+      opacity  0.65s cubic-bezier(0.16, 1, 0.3, 1),
+      transform 0.65s cubic-bezier(0.16, 1, 0.3, 1);
+    transition-delay: var(--ad, 0s);
+  }
+  .anim.in {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .anim-left {
+    opacity: 0;
+    transform: translateX(-20px);
+    transition:
+      opacity  0.6s cubic-bezier(0.16, 1, 0.3, 1),
+      transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    transition-delay: var(--ad, 0s);
+  }
+  .anim-left.in {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  .anim-scale {
+    opacity: 0;
+    transform: scale(0.96) translateY(16px);
+    transition:
+      opacity  0.6s cubic-bezier(0.16, 1, 0.3, 1),
+      transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    transition-delay: var(--ad, 0s);
+  }
+  .anim-scale.in {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+  /* Sayfa yüklenince görünür elementler için hazır hale getir */
+  @media (prefers-reduced-motion: reduce) {
+    .anim, .anim-left, .anim-scale { opacity: 1 !important; transform: none !important; transition: none !important; }
+  }
+
   @media (max-width: 480px) {
     .hero-metric-cards { grid-template-columns: 1fr !important; }
     .hero-stats-row { flex-direction: column !important; gap: 12px !important; }
@@ -576,19 +618,19 @@
     <div class="stats-grid" style="display:grid;grid-template-columns:repeat(3,1fr);gap:48px;">
 
       <div>
-        <div style="font-family:'Cormorant Garamond',Georgia,serif;font-weight:400;font-size:clamp(48px,5vw,64px);color:#D97706;letter-spacing:-2px;line-height:1;">+40%</div>
+        <div data-count-target="40" data-prefix="+" data-suffix="%" style="font-family:'Cormorant Garamond',Georgia,serif;font-weight:400;font-size:clamp(48px,5vw,64px);color:#D97706;letter-spacing:-2px;line-height:1;">+40%</div>
         <div style="width:32px;height:2px;background:#D97706;margin:12px 0;"></div>
         <p style="font-size:15px;font-weight:400;color:#334155;line-height:1.7;margin:0;">Kullanıcıların ilk 3 ayda raporladığı enerji ve performans artışı</p>
       </div>
 
       <div class="stats-divider" style="border-left:1px solid #A5C8C5;padding-left:48px;">
-        <div style="font-family:'Cormorant Garamond',Georgia,serif;font-weight:400;font-size:clamp(48px,5vw,64px);color:#0284C7;letter-spacing:-2px;line-height:1;">15 dk</div>
+        <div data-count-target="15" data-prefix="" data-suffix=" dk" style="font-family:'Cormorant Garamond',Georgia,serif;font-weight:400;font-size:clamp(48px,5vw,64px);color:#0284C7;letter-spacing:-2px;line-height:1;">15 dk</div>
         <div style="width:32px;height:2px;background:#0284C7;margin:12px 0;"></div>
         <p style="font-size:15px;font-weight:400;color:#334155;line-height:1.7;margin:0;">İlk analizin tamamlanma süresi. Kan tahlilini yükle, planın hazır.</p>
       </div>
 
       <div class="stats-divider" style="border-left:1px solid #A5C8C5;padding-left:48px;">
-        <div style="font-family:'Cormorant Garamond',Georgia,serif;font-weight:400;font-size:clamp(48px,5vw,64px);color:#059669;letter-spacing:-2px;line-height:1;">%91</div>
+        <div data-count-target="91" data-prefix="%" data-suffix="" style="font-family:'Cormorant Garamond',Georgia,serif;font-weight:400;font-size:clamp(48px,5vw,64px);color:#059669;letter-spacing:-2px;line-height:1;">%91</div>
         <div style="width:32px;height:2px;background:#059669;margin:12px 0;"></div>
         <p style="font-size:15px;font-weight:400;color:#334155;line-height:1.7;margin:0;">Haftalık beslenme planına uyum oranı — otomatik güncelleme sayesinde</p>
       </div>
@@ -821,6 +863,90 @@ if (ctx) {
     }
   });
 }
+
+// ── Scroll Animations ──────────────────────────────
+(function () {
+  // 1. Elementleri seç ve sınıf ata
+  function tag(el, cls, delay) {
+    if (!el) return;
+    el.classList.add(cls);
+    if (delay) el.style.setProperty('--ad', delay + 's');
+  }
+
+  // Section label'lar ve başlıklar (hero hariç)
+  document.querySelectorAll(
+    '.sec-nasil .section-label, .sec-nasil h2,' +
+    '.sec-kitle .section-label, .sec-kitle h2,' +
+    '.sec-stats .section-label, .sec-stats h2,' +
+    '.sec-testimonial .section-label, .sec-testimonial h2,' +
+    '.sec-faq .section-label, .sec-faq h2,' +
+    '.sec-cta .section-label, .sec-cta h2, .sec-cta p, .sec-cta a'
+  ).forEach(el => tag(el, 'anim'));
+
+  // Adım satırları — sırayla
+  document.querySelectorAll('.step-row').forEach((el, i) =>
+    tag(el, 'anim', i * 0.1));
+
+  // Hedef kitle kartları
+  document.querySelectorAll('.audience-grid > div').forEach((el, i) =>
+    tag(el, 'anim-scale', i * 0.12));
+
+  // İstatistik blokları
+  document.querySelectorAll('.stats-grid > div').forEach((el, i) =>
+    tag(el, 'anim', i * 0.13));
+
+  // Testimonyal kartları
+  document.querySelectorAll('.testimonial-grid > div').forEach((el, i) =>
+    tag(el, 'anim-scale', i * 0.1));
+
+  // FAQ satırları
+  document.querySelectorAll('.faq-item').forEach((el, i) =>
+    tag(el, 'anim', i * 0.07));
+
+  // 2. Observer
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('in');
+        io.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.08, rootMargin: '0px 0px -32px 0px' });
+
+  document.querySelectorAll('.anim, .anim-left, .anim-scale')
+    .forEach(el => io.observe(el));
+
+  // 3. Count-up istatistikler
+  function countUp(el, target, suffix, prefix, duration) {
+    let start = 0;
+    const step = (timestamp) => {
+      if (!start) start = timestamp;
+      const progress = Math.min((timestamp - start) / duration, 1);
+      const ease = 1 - Math.pow(1 - progress, 3); // easeOutCubic
+      el.textContent = prefix + Math.round(ease * target) + suffix;
+      if (progress < 1) requestAnimationFrame(step);
+    };
+    requestAnimationFrame(step);
+  }
+
+  const statsIO = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (!e.isIntersecting) return;
+      const el = e.target;
+      const raw = el.dataset.countTarget;
+      if (!raw) return;
+      const [prefix, num, suffix] = [
+        el.dataset.prefix || '',
+        parseInt(raw),
+        el.dataset.suffix || ''
+      ];
+      countUp(el, num, suffix, prefix, 1400);
+      statsIO.unobserve(el);
+    });
+  }, { threshold: 0.3 });
+
+  document.querySelectorAll('[data-count-target]').forEach(el => statsIO.observe(el));
+})();
 
 // ── FAQ Accordion ──────────────────────────────────
 document.querySelectorAll('.faq-question').forEach(btn => {
