@@ -130,6 +130,33 @@
   .mockup-scroll::-webkit-scrollbar { display: none; }
   .mockup-scroll { -ms-overflow-style: none; scrollbar-width: none; }
 
+  /* ── Card hover lifts ──────────────────────────── */
+  .audience-grid > div {
+    transition: transform 0.25s cubic-bezier(0.16,1,0.3,1),
+                box-shadow 0.25s cubic-bezier(0.16,1,0.3,1);
+  }
+  .audience-grid > div:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 16px 40px rgba(13,148,136,0.13);
+  }
+  .testimonial-grid > div {
+    transition: transform 0.25s cubic-bezier(0.16,1,0.3,1),
+                box-shadow 0.25s cubic-bezier(0.16,1,0.3,1);
+  }
+  .testimonial-grid > div:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 32px rgba(13,148,136,0.1);
+  }
+
+  /* ── Step result box accent ────────────────────── */
+  .step-inner > div:last-child {
+    border-left: 3px solid #D97706 !important;
+  }
+
+  /* ── Navbar scroll shadow ───────────────────────── */
+  nav { transition: box-shadow 0.3s ease; }
+  nav.scrolled { box-shadow: 0 4px 24px rgba(15,23,42,0.08) !important; }
+
   /* ── CTA Button Glow ───────────────────────────── */
   @keyframes ctaGlow {
     0%, 100% { box-shadow: 0 4px 14px rgba(217,119,6,0.3), 0 0 0 0px rgba(217,119,6,0); }
@@ -354,7 +381,7 @@
             <div style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:#94A3B8;margin-bottom:8px;">Uyku</div>
             <div style="font-family:'DM Mono',monospace;font-size:28px;font-weight:500;color:#0F172A;line-height:1;">91 <span style="font-size:12px;color:#94A3B8;">/100</span></div>
             <div style="margin-top:6px;">
-              <div style="height:3px;background:#E8E3DB;border-radius:2px;overflow:hidden;">
+              <div style="height:3px;background:#C8E8E5;border-radius:2px;overflow:hidden;">
                 <div style="width:91%;height:100%;background:#D97706;border-radius:2px;"></div>
               </div>
             </div>
@@ -421,7 +448,7 @@
       <p style="font-size:18px;font-weight:500;color:#334155;line-height:1.7;max-width:480px;margin:0 0 32px;">
         Kan tahlilinden beslenme planına, egzersizden uzun ömre — yapay zeka ile kişiselleştirilmiş sağlık optimizasyonu. Tüm veriler birbiriyle konuşur.
       </p>
-      <a href="#" class="btn-primary">Ücretsiz Hesap Oluştur</a>
+      <a href="#" class="btn-primary">Ücretsiz Hesap Oluştur →</a>
     </div>
     <div style="padding-top:6px;">
       <p style="font-size:15px;font-weight:400;color:#475569;line-height:1.8;margin:0 0 28px;">
@@ -831,7 +858,7 @@
     </div>
 
     <div>
-      <a href="#" class="btn-primary btn-cta-xl">Ücretsiz Hesap Oluştur</a>
+      <a href="#" class="btn-primary btn-cta-xl">Ücretsiz Hesap Oluştur →</a>
     </div>
 
     <!-- Trust badge'leri -->
@@ -863,13 +890,14 @@
   <div style="max-width:1160px;margin:0 auto;">
     <div class="footer-grid" style="display:grid;grid-template-columns:1fr auto;gap:48px;align-items:start;margin-bottom:40px;">
       <div>
-        <div class="bioos-logo" style="margin-bottom:4px;">
+        <div class="bioos-logo" style="margin-bottom:12px;">
           <div class="bioos-logo-inner">
             <span class="bioos-logo-text">Bio<span class="os">OS</span></span>
             <span class="bioos-logo-cursor"></span>
           </div>
           <span class="bioos-logo-sub">Biological OS</span>
         </div>
+        <p style="font-size:13px;color:#475569;line-height:1.6;max-width:260px;margin:0;">Biyolojinizi anlayın, optimize edin ve her gün en iyi versiyonunuz olun.</p>
       </div>
       <div class="footer-links" style="display:flex;gap:32px;align-items:center;">
         <a href="#" style="font-size:13px;color:#475569;text-decoration:none;transition:color 0.2s;" onmouseover="this.style.color='#0F172A'" onmouseout="this.style.color='#475569'">Gizlilik</a>
@@ -917,7 +945,7 @@ if (ctx) {
       }},
       scales: {
         x: { grid: { display: false }, ticks: { font: { family: 'DM Mono', size: 9 }, color: '#94A3B8' }, border: { display: false } },
-        y: { grid: { color: '#F0EBE3' }, ticks: { font: { family: 'DM Mono', size: 9 }, color: '#94A3B8' }, border: { display: false } }
+        y: { grid: { color: '#D5EEEB' }, ticks: { font: { family: 'DM Mono', size: 9 }, color: '#94A3B8' }, border: { display: false } }
       }
     }
   });
@@ -1005,6 +1033,16 @@ if (ctx) {
   }, { threshold: 0.3 });
 
   document.querySelectorAll('[data-count-target]').forEach(el => statsIO.observe(el));
+})();
+
+// ── Navbar Scroll Shadow ───────────────────────────
+(function() {
+  const nav = document.querySelector('nav');
+  if (!nav) return;
+  window.addEventListener('scroll', function() {
+    if (window.scrollY > 8) nav.classList.add('scrolled');
+    else nav.classList.remove('scrolled');
+  }, { passive: true });
 })();
 
 // ── FAQ Accordion ──────────────────────────────────
